@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/reireirei9131/capstone-kel1
+    repoURL: https://github.com/reireirei9131/capstone-kel1.git
     targetRevision: main
     path: 04-platform-kubernetes/manifests
   destination:
