@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Namespace
+metadata: {name: capstone}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata: {name: capstone-app-config, namespace: capstone}
+data: {APP_ENV: "lab", TENANT_MODE: "shared-schema"}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: capstone-app, namespace: capstone}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: capstone-app}}
+  template:
+    metadata: {labels: {app: capstone-app}}
+    spec:
+      containers:
+      - name: app
+        image: registry:5000/capstone-app:v0.1.0
+        ports: [{containerPort: 8080}]
+        envFrom: [{configMapRef: {name: capstone-app-config}}]
+        readinessProbe: {httpGet: {path: /q/health/ready, port: 8080}, initialDelaySeconds: 3, periodSeconds: 5}
+        livenessProbe:  {httpGet: {path: /q/health/live,  port: 8080}, initialDelaySeconds: 10, periodSeconds: 10}
+        resources:
+          requests: {cpu: 100m, memory: 192Mi}
+          limits: {cpu: 500m, memory: 512Mi}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: capstone-app, namespace: capstone}
+spec:
+  selector: {app: capstone-app}
+  ports: [{port: 80, targetPort: 8080}]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: {name: capstone-app, namespace: capstone}
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: capstone.localhost
+    http:
+      paths:
+      - {path: /, pathType: Prefix, backend: {service: {name: capstone-app, port: {number: 80}}}}
