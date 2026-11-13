@@ -6,6 +6,7 @@ metadata:
   labels:
     release: kube-prometheus-stack   # harus cocok dengan selector Prometheus
 spec:
+  jobLabel: app
   selector:
     matchLabels:
       app: edulearn-api

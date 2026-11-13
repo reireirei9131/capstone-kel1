@@ -1,3 +1,4 @@
+
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -12,24 +13,29 @@ spec:
       rules:
         - record: sli:http_error_ratio:rate5m
           expr: |
-            sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[5m]))
+            (sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[5m])) or vector(0))
             / sum(rate(http_requests_total{job="edulearn-api"}[5m]))
+
         - record: sli:http_error_ratio:rate30m
           expr: |
-            sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[30m]))
+            (sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[30m])) or vector(0))
             / sum(rate(http_requests_total{job="edulearn-api"}[30m]))
+
         - record: sli:http_error_ratio:rate1h
           expr: |
-            sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[1h]))
+            (sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[1h])) or vector(0))
             / sum(rate(http_requests_total{job="edulearn-api"}[1h]))
+
         - record: sli:http_error_ratio:rate6h
           expr: |
-            sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[6h]))
+            (sum(rate(http_requests_total{job="edulearn-api",status=~"5.."}[6h])) or vector(0))
             / sum(rate(http_requests_total{job="edulearn-api"}[6h]))
+
         - record: sli:http_latency_good_ratio:rate5m
           expr: |
             sum(rate(http_request_duration_seconds_bucket{job="edulearn-api",le="0.5"}[5m]))
             / sum(rate(http_request_duration_seconds_count{job="edulearn-api"}[5m]))
+
     # ---- Alert burn rate (SLO ketersediaan 99.5% => error budget 0.5%) ----
     - name: edulearn.slo-alerts
       rules:
@@ -41,6 +47,7 @@ spec:
           annotations:
             summary: "Error budget terbakar sangat cepat (14.4x)"
             description: "Error ratio {{ $value | humanizePercentage }}. Budget 30 hari habis dalam ~2 hari."
+
         - alert: EduLearnErrorBudgetSlowBurn
           expr: sli:http_error_ratio:rate30m > (6 * 0.005) and sli:http_error_ratio:rate6h > (6 * 0.005)
           for: 15m
@@ -48,6 +55,7 @@ spec:
             severity: warning
           annotations:
             summary: "Error budget terbakar lambat tapi konsisten (6x)"
+
         - alert: EduLearnLatencySLOBreach
           expr: sli:http_latency_good_ratio:rate5m < 0.95
           for: 10m
@@ -55,6 +63,7 @@ spec:
             severity: warning
           annotations:
             summary: "Kurang dari 95% request selesai dalam 500ms"
+
         - alert: EduLearnAPIDown
           expr: absent(up{job="edulearn-api"} == 1)
           for: 1m
