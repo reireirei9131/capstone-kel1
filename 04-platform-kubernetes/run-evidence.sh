@@ -6,7 +6,6 @@ panel(){ echo; read -rp ">>> Siap. Tekan Enter untuk panel: $1 (lalu screenshot)
 
 cd "$D" || exit 1
 
-# ---- file sumber (ikut jadi deliverable) ----
 cat > default.conf <<'EOF'
 server {
   listen 8080;
@@ -113,9 +112,9 @@ r "curl -s -o /dev/null -w 'HTTP %{http_code}\n' -H 'Host: capstone.localhost' h
 r "kubectl -n capstone get pods"
 r "sleep 15; kubectl -n capstone get pods"
 
-panel "11 Rolling restart + history"
+panel "11 Rolling restart dan history"
 r "kubectl -n capstone rollout restart deploy/capstone-app"
 r "kubectl -n capstone rollout status deploy/capstone-app"
 r "kubectl -n capstone rollout history deploy/capstone-app"
 
-echo; echo "SELESAI. Screenshot disimpan di $D/shots"
+echo; echo "DONE"
