@@ -1,4 +1,4 @@
-# Evidence 04 - Platform Kubernetes (Milestone M3)
+# Evidence 04 - Platform Kubernetes (Milestone 04)
 
 Sistem: Platform Ujian Daring Multi-Tenant (kampus + lembaga sertifikasi)
 
@@ -13,7 +13,7 @@ Sistem: Platform Ujian Daring Multi-Tenant (kampus + lembaga sertifikasi)
 | Field | Isi |
 | --- | --- |
 | **Scope** | Container image, Deployment (2 replika), Service, Ingress, ConfigMap, readiness/liveness probe, resource requests/limits pada cluster k3d (1 server + 1 agent), namespace `capstone`. |
-| **Owner** | Deo Putra Garcia (2410512118) - Platform & Delivery. |
+| **Owner** | Deo Putra Garcia (2410512118) Role Platform & Delivery. Milestone 4. |
 | **Source / version** | Image `localhost:5001/capstone-app:v0.1.0`, digest `sha256:5772d161de9804a9ab1eb43680886887b468ddf5bd64a980ad7bb138f82f83bd`. k3d v5.9.0, k3s v1.35.5+k3s1, kubectl client v1.37.2, Docker 29.9.2, base image `nginx:alpine`. Commit repo: **-**. |
 | **Timestamp** | 10 November 2026, 14:11 - 14:15 WIB (UTC+7). Panel tambahan: **10 November 2026, 14:24 - 14:25 WIB.**. |
 | **Method** | Skrip `run-evidence.sh` menjalankan perintah satu per satu, tiap panel diberi `date` dan di-screenshot. Daftar perintah ada di bagian 2. |
@@ -26,10 +26,10 @@ Sistem: Platform Ujian Daring Multi-Tenant (kampus + lembaga sertifikasi)
 
 File di folder ini:
 
-- `Dockerfile`, `default.conf`, `index.html` - pembuatan image stand-in.
-- `app.yaml` - manifest deklaratif (Namespace, ConfigMap, Deployment, Service, Ingress).
-- `run-evidence.sh` - skrip pengambilan evidence.
-- `04_evidence.pdf` / `04_evidence.jpg` - kumpulan screenshot terminal.
+- `Dockerfile`, `default.conf`, `index.html`: pembuatan image stand-in.
+- `app.yaml`: manifest deklaratif (Namespace, ConfigMap, Deployment, Service, Ingress).
+- `run-evidence.sh`: skrip pengambilan evidence yang saya pakai.
+- `04_evidence.pdf` / `04_evidence.jpg`: kumpulan screenshot terminal.
 
 Urutan panel:
 
