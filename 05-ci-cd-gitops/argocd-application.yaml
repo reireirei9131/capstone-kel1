@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/reireirei9131/capstone-kel1.git
     targetRevision: main
-    path: 04-platform-kubernetes/manifests
+    path: 04-platform-kubernetes
   destination:
     server: https://kubernetes.default.svc
     namespace: edulearn
