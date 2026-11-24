@@ -1,4 +1,4 @@
-# Evidence 08 - Reliability & Recovery
+﻿# Evidence 08 - Reliability & Recovery
 
 > Isi bagian [ISI] hanya dengan data dari eksekusi sebenarnya (keluaran drill.ps1 dan failure-test.ps1). Jangan menulis angka yang tidak terukur.
 
@@ -10,7 +10,7 @@
 |---|---|
 | **Scope** | Basis data aplikasi ujian (PostgreSQL, database `capstone`): backup logis, restore ke database validasi terpisah (`capstone_restore_validation`), validasi; serta uji kegagalan layanan database terhadap API. |
 | **Owner** | Azka Zufar Abrani (pelaksana); reviewer: Azka Zufar Abrani |
-| **Source / version** | PostgreSQL 17.11 (database dan `pg_dump`, dari header arsip), `pg_dump -Fc` dan `pg_restore` dari container yang sama, Docker Desktop 4.35.1 (engine 27.3.1), repo commit [ISI hasil `git rev-parse --short HEAD`]. |
+| **Source / version** | PostgreSQL 17.11 (database dan `pg_dump`, dari header arsip), `pg_dump -Fc` dan `pg_restore` dari container yang sama, Docker Desktop 4.35.1 (engine 27.3.1), repo commit a81f46f (skrip drill dan evidence; `server.js` yang diperbaiki dikirim lewat commit terpisah). |
 | **Timestamp** | 2026-11-24 (WIB, UTC+7). Drill: 11:21 sampai 11:23. Uji kegagalan 1: 10:16 sampai 10:22. Uji kegagalan 2: 11:09. |
 | **Method** | `scripts/drill.ps1` (A sampai F) dan `scripts/failure-test.ps1`. Verifikasi memakai jumlah baris dan checksum md5 per tabel (`scripts/verify.sql`). |
 | **Observation** | Lihat bagian di bawah. |
@@ -60,3 +60,4 @@ Checksum identik membuktikan data pulih utuh dari backup. Baris yang dibuat sete
 
 ## Decision supported
 Bukti ini mendukung keputusan tim tentang target RPO/RTO, frekuensi dan lokasi backup (misalnya `pg_dump` terjadwal ke volume terpisah), dan langkah lanjutan (CronJob di cluster, restore berkala, uji kegagalan untuk jalur ujian lainnya). Angka target yang dipilih belum ditentukan di dokumen ini: [ISI keputusan tim].
+
